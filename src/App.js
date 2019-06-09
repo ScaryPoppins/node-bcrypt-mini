@@ -12,11 +12,43 @@ class App extends Component {
     };
   }
 
-  async login() {}
+  async login() {
+// ALSO SEE login ENDPOINT IN INDEX.JS IN SERVER FOLDER
 
-  async signup() {}
+//The body should be an object with our email and password from state assigned as properties on the object.
+//When the response comes back, we should set the returned user on state and reset the username and password fields.
+    let { email, password } = this.state;
+    let res = await axios.post('/auth/signup', {
+      email,
+      password
+    });
+    this.setState({ loggedInUser: res.data, email: '', password: '' });
+  }
 
-  logout() {}
+  async signup() {
+// ALSO SEE login ENDPOINT IN INDEX.JS IN SERVER FOLDER
+
+//This function will look identical to the signup function, except we'll be posting to the /auth/login endpoint instead of the signup endpoint.
+//It should make the post request, set the returned user on state, and reset the input fields.
+    let { email, password } = this.state;
+    let res = await axios.post('/auth/login', {
+      email,
+      password
+    });
+    this.setState({ loggedInUser: res.data, email: '', password: '' });
+  }
+
+
+// ALSO SEE logout ENDPOINT IN INDEX.JS IN SERVER FOLDER  
+//make a get request to /auth/logout.
+//Set the loggedInUser on state back to an empty object.
+
+  logout() {
+    axios.get('/auth/logout');
+    this.setState({ loggedInUser: {} });
+  }
+
+  
 
   render() {
     let { loggedInUser, email, password } = this.state;
